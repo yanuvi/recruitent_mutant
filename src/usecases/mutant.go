@@ -20,7 +20,7 @@ func NewMutantImpl() (mutantImpl *MutantImpl) {
 	return
 }
 
-func (adn *MutantImpl) AdnCheckSize(adnSequence []string) (result bool) {
+func adnCheckSize(adnSequence []string) (result bool) {
 	if len(adnSequence) != len(adnSequence[0]) {
 		fmt.Printf("El tamano esperado debe ser NxN y es %d x %d", len(adnSequence), len(adnSequence[0]))
 		result = true
@@ -31,7 +31,7 @@ func (adn *MutantImpl) AdnCheckSize(adnSequence []string) (result bool) {
 	return
 }
 
-func (adn *MutantImpl) AdnAllowedLetters(adnSequence []string) (result bool) {
+func adnAllowedLetters(adnSequence []string) (result bool) {
 	for _, v := range adnSequence {
 
 		valueInByte := []byte(strings.ToUpper(v))
@@ -49,7 +49,18 @@ func (adn *MutantImpl) AdnAllowedLetters(adnSequence []string) (result bool) {
 	return
 }
 
-func isMutant(adnSequence []string) (result bool) {
+//reciver function
+func (implementation *MutantImpl) IsMutant(adn []string) (result bool) {
+
+	result = adnAllowedLetters(adn)
+	if result {
+		return // retornar q es falso el adn mutante
+	}
+
+	result = adnCheckSize(adn)
+	if result {
+		return // retornar q es falso el adn mutante
+	}
 
 	const (
 		maxSequence = 20
@@ -59,7 +70,7 @@ func isMutant(adnSequence []string) (result bool) {
 	var matrix [][]byte
 	var matrix_horizontal, matrix_vertical, matrix_diagonal_down, matrix_diagonal_up [10][10]int //preguntar como dejarlo sin tamano??
 
-	for _, v := range adnSequence {
+	for _, v := range adn {
 		valueInByte := []byte(strings.ToUpper(v))
 		matrix = append(matrix, valueInByte)
 	}

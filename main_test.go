@@ -1,8 +1,14 @@
-package main
+package main_test
 
 import (
 	"testing"
+
+	"github.com/yanuvi/recruitent_mutant/src/usecases"
 )
+
+mutantUsecases := usecases.NewMutantImpl() 
+
+usecases.SetMutantUseCases(mutantUsecases)
 
 func testadnCheckSize(t *testing.T) {
 	adn := []string{"ATGC",
