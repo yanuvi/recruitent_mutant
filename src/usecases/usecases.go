@@ -8,8 +8,8 @@ func SetMutantUseCases(usecases IMutantUsecases) { //es el punto exacto de la in
 	mutantUsecases = usecases
 }
 
-func AdnCheckSize(request *entities.MutantRequest) (result bool) {
-	return mutantUsecases.AdnCheckSize(request.Dna)
+func IsMutant(request *entities.MutantRequest) (result bool) {
+	return mutantUsecases.IsMutant(request.Dna)
 }
 
 //contrato de la logica de negocio, intermediario entre la invocacion y la implementacion

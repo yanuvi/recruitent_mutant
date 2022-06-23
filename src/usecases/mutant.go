@@ -10,7 +10,7 @@ type MutantImpl struct {
 }
 
 type IMutantUsecases interface {
-	AdnCheckSize(adnSequence []string) (result bool)
+	IsMutant(adnSequence []string) (result bool)
 }
 
 func NewMutantImpl() (mutantImpl *MutantImpl) {
