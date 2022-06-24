@@ -78,18 +78,70 @@ func TestAdnAllowedLettersInv(t *testing.T) {
 	}
 }
 
-/*
-func testisMutant(t *testing.T) {
-	adn := []string{"ATGCGA",
-		"CAGTGC",
-		"TTATGT",
-		"AGAAGG",
-		"CCCCTA",
-		"TCACTG"}
+func TestIsMutantSeqHoriz(t *testing.T) {
+	dna := []string{"ATGCA",
+		"CAAAA",
+		"TTGCT",
+		"GGTAC",
+		"GGGGT"}
 
-	xmen := isMutant(adn)
-
-	if !xmen {
-		t.Errorf("La secuencia de adn no es mutante")
+	request := &entities.MutantRequest{
+		Dna: dna,
 	}
-}*/
+	result := usecases.IsMutant(request)
+
+	if result {
+		t.Errorf("La secuencia de dna no es mutante")
+	}
+}
+
+func TestIsMutantSeqVert(t *testing.T) {
+	dna := []string{"ACTTG",
+		"CCGTC",
+		"TCATG",
+		"GCCTA",
+		"GTAAC"}
+
+	request := &entities.MutantRequest{
+		Dna: dna,
+	}
+	result := usecases.IsMutant(request)
+
+	if result {
+		t.Errorf("La secuencia de dna no es mutante")
+	}
+}
+
+func TestIsMutantSeqDiagUp(t *testing.T) {
+	dna := []string{"ATCGT",
+		"GTGAC",
+		"CGCCG",
+		"GTCTA",
+		"ACTAC"}
+
+	request := &entities.MutantRequest{
+		Dna: dna,
+	}
+	result := usecases.IsMutant(request)
+
+	if result {
+		t.Errorf("La secuencia de dna no es mutante")
+	}
+}
+
+func TestIsMutantSeqDiagDown(t *testing.T) {
+	dna := []string{"ACAGT",
+		"TATGT",
+		"CTAGA",
+		"TGTAC",
+		"AGATG"}
+
+	request := &entities.MutantRequest{
+		Dna: dna,
+	}
+	result := usecases.IsMutant(request)
+
+	if result {
+		t.Errorf("La secuencia de dna no es mutante")
+	}
+}
