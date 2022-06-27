@@ -112,7 +112,26 @@ func TestAdnAllowedLetters(t *testing.T) {
 	}
 	result := usecases.IsMutant(request)
 
-	if result {
+	if !result {
 		t.Errorf("Secuencia de dna es correcto")
+	}
+}
+
+func TestAdnCheckSize(t *testing.T) {
+	usecases.SetMutantUseCases(mutantUsecases) //inyecte la implementacion
+
+	dna := []string{"ATGCA",
+		"GGCTA",
+		"GAAAT",
+		"TGACA"}
+
+	request := &entities.MutantRequest{
+		Dna: dna,
+	}
+
+	result := usecases.IsMutant(request)
+
+	if !result {
+		t.Errorf("Secuencia de dna no es correcto")
 	}
 }

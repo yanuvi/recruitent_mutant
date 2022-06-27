@@ -19,64 +19,58 @@ func NewMutantImpl() (mutantImpl *MutantImpl) {
 	return
 }
 
-func adnCheckSize(adnSequence []string) (result bool) {
-	result = true
-	if len(adnSequence) != cap(adnSequence) {
-		//fmt.Printf("El tamano esperado debe ser NxN y es %d x %d", len(adnSequence), cap(adnSequence))
-		result = false
-	}
-	return
-}
-
-func adnAllowedLetters(adnSequence []string) (result bool) {
-	result = true
+func adnPrerequisite(adnSequence []string) (result bool) {
+	result = false
 	for _, v := range adnSequence {
 
 		valueInByte := []byte(strings.ToUpper(v))
 		valueInString := string(valueInByte)
 
-		found, _ := regexp.MatchString("[^ATGC]", valueInString) //false
-		if found {
-			//fmt.Printf("El ADN solo permite las letras ATCG. Se ingreso %s \n", valueInString)
-			result = false
+		found, _ := regexp.MatchString("[^ATGC]", valueInString)
+		if found || (len(valueInString) != len(adnSequence)) {
+			result = true
+			return
 		}
 	}
 	return
 }
 
-//reciver function
 func (implementation *MutantImpl) IsMutant(dna []string) (result bool) {
 
-	result = adnAllowedLetters(dna)
-	if !result {
-		return
-	}
-
-	result = adnCheckSize(dna)
-	if !result {
+	result = adnPrerequisite(dna)
+	if result {
 		return
 	}
 
 	const (
 		maxSequence = 2
-	) //debe estar en la funcion q lo usa, evitar condicion de carrera
+	)
 
 	contador_global := 0
 	var matrix [][]byte
-	var matrix_horizontal, matrix_vertical, matrix_diagonal_down, matrix_diagonal_up [10][10]int //preguntar como dejarlo sin tamano??
 
 	for _, v := range dna {
 		valueInByte := []byte(strings.ToUpper(v))
 		matrix = append(matrix, valueInByte)
 	}
 
-	altura := len(matrix)
-	anchura := len(matrix)
+	size := len(matrix)
 
-	for i := 0; i < altura && contador_global < maxSequence; i++ {
-		for j := 0; j < anchura && contador_global < maxSequence; j++ {
+	matrix_horizontal := make([][]int, size)
+	matrix_vertical := make([][]int, size)
+	matrix_diagonal_down := make([][]int, size)
+	matrix_diagonal_up := make([][]int, size)
+	for idx := range matrix {
+		matrix_horizontal[idx] = make([]int, size)
+		matrix_vertical[idx] = make([]int, size)
+		matrix_diagonal_down[idx] = make([]int, size)
+		matrix_diagonal_up[idx] = make([]int, size)
+	}
+
+	for i := 0; i < size && contador_global < maxSequence; i++ {
+		for j := 0; j < size && contador_global < maxSequence; j++ {
 			//Validacion horizontal
-			if (j <= (anchura - 4)) && matrix_horizontal[i][j] != 1 {
+			if (j <= (size - 4)) && matrix_horizontal[i][j] != 1 {
 				if matrix[i][j] == matrix[i][j+1] {
 					matrix_horizontal[i][j] = 1
 					matrix_horizontal[i][j+1] = 1
@@ -85,14 +79,13 @@ func (implementation *MutantImpl) IsMutant(dna []string) (result bool) {
 						if matrix[i][j] == matrix[i][j+3] {
 							matrix_horizontal[i][j+3] = 1
 							contador_global++
-							//contador_h++
 						}
 					}
 				}
 			}
 
 			//validacion vertical
-			if (i <= (altura - 4)) && matrix_vertical[i][j] != 1 {
+			if (i <= (size - 4)) && matrix_vertical[i][j] != 1 {
 				if matrix[i][j] == matrix[i+1][j] {
 					matrix_vertical[i][j] = 1
 					matrix_vertical[i+1][j] = 1
@@ -101,14 +94,13 @@ func (implementation *MutantImpl) IsMutant(dna []string) (result bool) {
 						if matrix[i][j] == matrix[i+3][j] {
 							matrix_vertical[i+3][j] = 1
 							contador_global++
-							//contador_v++
 						}
 					}
 				}
 			}
 
 			//validacion diagonal abajo
-			if (i <= (altura - 4)) && (j <= (anchura - 4)) && matrix_diagonal_down[i][j] != 1 {
+			if (i <= (size - 4)) && (j <= (size - 4)) && matrix_diagonal_down[i][j] != 1 {
 				if matrix[i][j] == matrix[i+1][j+1] {
 					matrix_diagonal_down[i][j] = 1
 					matrix_diagonal_down[i+1][j+1] = 1
@@ -117,14 +109,13 @@ func (implementation *MutantImpl) IsMutant(dna []string) (result bool) {
 						if matrix[i][j] == matrix[i+3][j+3] {
 							matrix_diagonal_down[i+3][j+3] = 1
 							contador_global++
-							//contador_da++
 						}
 					}
 				}
 			}
 
 			//validacion diagonal arriba
-			if (i <= (altura - 4)) && (j > 2) && matrix_diagonal_up[i][j] != 1 {
+			if (i <= (size - 4)) && (j > 2) && matrix_diagonal_up[i][j] != 1 {
 				if matrix[i][j] == matrix[i+1][j-1] {
 					matrix_diagonal_up[i][j] = 1
 					matrix_diagonal_up[i+1][j-1] = 1
