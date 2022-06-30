@@ -7,6 +7,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/yanuvi/recruitent_mutant/src/database"
+	"github.com/yanuvi/recruitent_mutant/src/repository"
 )
 
 type Config struct {
@@ -48,6 +50,11 @@ func NewServer(ctx context.Context, config *Config) (*Broker, error) {
 func (b *Broker) Start(binder func(s Server, r *mux.Router)) {
 	b.router = mux.NewRouter()
 	binder(b, b.router)
+	repo, err := database.NewPostgresRepository(b.config.DatabaseURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	repository.SetRepository(repo)
 	log.Println("starting server on port", b.config.Port)
 	if err := http.ListenAndServe(b.config.Port, b.router); err != nil {
 		log.Println("error starting server:", err)

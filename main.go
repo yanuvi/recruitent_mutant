@@ -16,7 +16,7 @@ func main() {
 
 	err := godotenv.Load(".env")
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatalf("Error loading .env file %v\n", err)
 	}
 
 	PORT := os.Getenv("PORT")
@@ -29,10 +29,12 @@ func main() {
 		DatabaseURL: DATABASE_URL,
 	})
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Error creating server %v\n", err)
 	}
 	s.Start(BindRouters)
 }
+
 func BindRouters(s server.Server, r *mux.Router) {
 	r.HandleFunc("/", handlers.HomeHandler(s)).Methods(http.MethodGet)
+	r.HandleFunc("/signup", handlers.SingUpHandler(s)).Methods(http.MethodPost)
 }

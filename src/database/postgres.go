@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"log"
 
+	_ "github.com/lib/pq"
 	"github.com/yanuvi/recruitent_mutant/src/models"
 )
 
@@ -21,12 +22,12 @@ func NewPostgresRepository(url string) (*PostgresRepository, error) {
 }
 
 func (repo *PostgresRepository) InsertMutant(ctx context.Context, mutant *models.Mutant) error {
-	_, err := repo.db.ExecContext(ctx, "INSERT INTO mutant (id, dna) VALUES (&1, &2)", mutant.Id, mutant.Dna)
+	_, err := repo.db.ExecContext(ctx, "INSERT INTO mutant (id, dna) VALUES ($1, $2)", mutant.Id, mutant.Dna)
 	return err
 }
 
-func (repo *PostgresRepository) GetMutantById(ctx context.Context, id int64) (*models.Mutant, error) {
-	rows, err := repo.db.QueryContext(ctx, "SELECT dna FROM mutant WHERE id = &1", id)
+func (repo *PostgresRepository) GetMutantById(ctx context.Context, id string) (*models.Mutant, error) {
+	rows, err := repo.db.QueryContext(ctx, "SELECT dna FROM mutant WHERE id = $1", id)
 	defer func() {
 		err := rows.Close()
 		if err != nil {
