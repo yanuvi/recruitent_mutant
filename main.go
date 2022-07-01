@@ -35,6 +35,6 @@ func main() {
 }
 
 func BindRouters(s server.Server, r *mux.Router) {
-	r.HandleFunc("/", handlers.HomeHandler(s)).Methods(http.MethodGet)
-	r.HandleFunc("/signup", handlers.SingUpHandler(s)).Methods(http.MethodPost)
+	//r.HandleFunc("/", handlers.HomeHandler(s)).Methods(http.MethodGet)
+	r.HandleFunc("/mutant", handlers.MutantHandler(s)).Methods(http.MethodPost) //Aca va lo pedido /mutant/ del
 }

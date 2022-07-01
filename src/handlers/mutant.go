@@ -5,24 +5,26 @@ import (
 	"net/http"
 
 	"github.com/segmentio/ksuid"
+	"github.com/yanuvi/recruitent_mutant/src/entities"
 	"github.com/yanuvi/recruitent_mutant/src/models"
 	"github.com/yanuvi/recruitent_mutant/src/repository"
 	"github.com/yanuvi/recruitent_mutant/src/server"
+	"github.com/yanuvi/recruitent_mutant/src/usecases"
 )
 
-type SingUpRequest struct {
-	//	Id  string `json:"id"`
-	Dna string `json:"dna"`
+type MutantRequest struct {
+	Dna     string   `json:"dna"`
+	DnaOtro []string `json:"dnaotro"`
 }
 
-type SingUpResponse struct {
+type MutantResponse struct {
 	Id  string `json:"id"`
 	Dna string `json:"dna"`
 }
 
-func SingUpHandler(s server.Server) http.HandlerFunc {
+func MutantHandler(s server.Server) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var request = SingUpRequest{}
+		var request = MutantRequest{}
 		err := json.NewDecoder(r.Body).Decode(&request)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest) //error del lado del cliente
@@ -39,15 +41,30 @@ func SingUpHandler(s server.Server) http.HandlerFunc {
 			Dna: request.Dna,
 			Id:  id.String(),
 		}
-		err = repository.InsertMutant(r.Context(), &mutant)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+		var mutantUsecases *usecases.MutantImpl = usecases.NewMutantImpl()
+		usecases.SetMutantUseCases(mutantUsecases)
+		requestUsecases := &entities.MutantRequest{
+			Dna: request.DnaOtro,
 		}
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(SingUpResponse{
-			Id:  mutant.Id,
-			Dna: mutant.Dna,
-		})
+
+		result := usecases.IsMutant(requestUsecases)
+		if result {
+			//fmt.Println("Es mutante")
+			err = repository.InsertMutant(r.Context(), &mutant)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+		} else {
+			//fmt.Println("No es mutante")
+			w.Header().Set("Content-Type", "application/json")
+			http.Error(w, "", http.StatusForbidden)
+		}
+		/*
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(MutantResponse{
+				Id:  mutant.Id,
+				Dna: mutant.Dna,
+			})*/
 	}
 }

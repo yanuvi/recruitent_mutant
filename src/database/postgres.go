@@ -3,7 +3,6 @@ package database
 import (
 	"context"
 	"database/sql"
-	"log"
 
 	_ "github.com/lib/pq"
 	"github.com/yanuvi/recruitent_mutant/src/models"
@@ -23,9 +22,11 @@ func NewPostgresRepository(url string) (*PostgresRepository, error) {
 
 func (repo *PostgresRepository) InsertMutant(ctx context.Context, mutant *models.Mutant) error {
 	_, err := repo.db.ExecContext(ctx, "INSERT INTO mutant (id, dna) VALUES ($1, $2)", mutant.Id, mutant.Dna)
+	//fmt.Println("entre al insert")
 	return err
 }
 
+/*
 func (repo *PostgresRepository) GetMutantById(ctx context.Context, id string) (*models.Mutant, error) {
 	rows, err := repo.db.QueryContext(ctx, "SELECT dna FROM mutant WHERE id = $1", id)
 	defer func() {
@@ -45,6 +46,7 @@ func (repo *PostgresRepository) GetMutantById(ctx context.Context, id string) (*
 	}
 	return &mutant, nil
 }
+*/
 func (repo *PostgresRepository) CloseConnectionBD() error {
 	return repo.db.Close()
 }

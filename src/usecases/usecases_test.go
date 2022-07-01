@@ -23,7 +23,7 @@ func TestIsMutantSeqHoriz(t *testing.T) {
 	result := usecases.IsMutant(request)
 
 	if !result {
-		t.Errorf("La secuencia de dna es mutante")
+		t.Errorf("La secuencia de dna no es mutante")
 	}
 }
 
@@ -41,7 +41,7 @@ func TestIsMutantSeqDiagDown(t *testing.T) {
 	result := usecases.IsMutant(request)
 
 	if !result {
-		t.Errorf("La secuencia de dna es mutante")
+		t.Errorf("La secuencia de dna no es mutante")
 	}
 }
 
@@ -59,7 +59,7 @@ func TestIsMutantSeqDiagUp(t *testing.T) {
 	result := usecases.IsMutant(request)
 
 	if !result {
-		t.Errorf("La secuencia de dna es mutante")
+		t.Errorf("La secuencia de dna no es mutante")
 	}
 }
 
@@ -77,7 +77,7 @@ func TestIsMutantSeqVert(t *testing.T) {
 	result := usecases.IsMutant(request)
 
 	if !result {
-		t.Errorf("La secuencia de dna es mutante")
+		t.Errorf("La secuencia de dna no es mutante")
 	}
 }
 
@@ -95,7 +95,7 @@ func TestIsNotMutant(t *testing.T) {
 	result := usecases.IsMutant(request)
 
 	if result {
-		t.Errorf("La secuencia de dna no es mutante")
+		t.Errorf("La secuencia de dna es mutante")
 	}
 }
 
@@ -112,7 +112,7 @@ func TestAdnAllowedLetters(t *testing.T) {
 	}
 	result := usecases.IsMutant(request)
 
-	if !result {
+	if result {
 		t.Errorf("Secuencia de dna es correcto")
 	}
 }
@@ -131,7 +131,7 @@ func TestAdnCheckSize(t *testing.T) {
 
 	result := usecases.IsMutant(request)
 
-	if !result {
-		t.Errorf("Secuencia de dna no es correcto")
+	if result {
+		t.Errorf("Secuencia de dna es correcto")
 	}
 }

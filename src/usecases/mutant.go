@@ -20,7 +20,8 @@ func NewMutantImpl() (mutantImpl *MutantImpl) {
 }
 
 func adnPrerequisite(adnSequence []string) (result bool) {
-	result = false
+	result = true
+	//fmt.Println("entre aca adnpre   ")
 	for _, v := range adnSequence {
 
 		valueInByte := []byte(strings.ToUpper(v))
@@ -28,17 +29,22 @@ func adnPrerequisite(adnSequence []string) (result bool) {
 
 		found, _ := regexp.MatchString("[^ATGC]", valueInString)
 		if found || (len(valueInString) != len(adnSequence)) {
-			result = true
+			//fmt.Printf("Datos adnpre found %v len %v tam %v \n", found, len(valueInString), len(adnSequence))
+			result = false
 			return
 		}
 	}
+	//fmt.Printf("resultado adnpre %v \n", result)
 	return
 }
 
 func (implementation *MutantImpl) IsMutant(dna []string) (result bool) {
-
+	//fmt.Printf("entrada a la implementacion: %v\n", dna)
 	result = adnPrerequisite(dna)
-	if result {
+	//fmt.Printf("resultado imple %v \n", result)
+	if !result {
+		//fmt.Printf("entre aca poooooorrrr  %v", result)
+		//result = false
 		return
 	}
 
@@ -130,7 +136,7 @@ func (implementation *MutantImpl) IsMutant(dna []string) (result bool) {
 			}
 		}
 	}
-
+	//fmt.Printf("Contador global: %d \n", contador_global)
 	if contador_global != 0 {
 		result = true
 		return
