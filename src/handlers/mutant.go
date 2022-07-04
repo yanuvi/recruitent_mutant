@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"github.com/segmentio/ksuid"
 	"github.com/yanuvi/recruitent_mutant/src/entities"
@@ -13,13 +14,11 @@ import (
 )
 
 type MutantRequest struct {
-	Dna     string   `json:"dna"`
-	DnaOtro []string `json:"dnaotro"`
+	Dna []string `json:"dna"`
 }
 
 type MutantResponse struct {
-	Id  string `json:"id"`
-	Dna string `json:"dna"`
+	IsMutant bool `json:"is_mutant"`
 }
 
 func MutantHandler(s server.Server) http.HandlerFunc {
@@ -27,44 +26,50 @@ func MutantHandler(s server.Server) http.HandlerFunc {
 		var request = MutantRequest{}
 		err := json.NewDecoder(r.Body).Decode(&request)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest) //error del lado del cliente
-			return
+			http.Error(w, err.Error(), http.StatusBadRequest)
 		}
 
 		id, err := ksuid.NewRandom()
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError) //error del servidor
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		// incluir la validacion si se mutante o no para insertar
-		var mutant = models.Mutant{
-			Dna: request.Dna,
-			Id:  id.String(),
-		}
+
 		var mutantUsecases *usecases.MutantImpl = usecases.NewMutantImpl()
 		usecases.SetMutantUseCases(mutantUsecases)
+
 		requestUsecases := &entities.MutantRequest{
-			Dna: request.DnaOtro,
+			Dna: request.Dna,
 		}
 
 		result := usecases.IsMutant(requestUsecases)
+		resultMutant := ""
 		if result {
-			//fmt.Println("Es mutante")
-			err = repository.InsertMutant(r.Context(), &mutant)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
+			resultMutant = "S"
 		} else {
-			//fmt.Println("No es mutante")
+			resultMutant = "N"
+		}
+
+		var mutant = models.Mutant{
+			Dna:           strings.Join(request.Dna, ","),
+			Reclutamiento: resultMutant,
+			Id:            id.String(),
+		}
+		err = repository.InsertMutant(r.Context(), &mutant)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		if resultMutant == "N" {
 			w.Header().Set("Content-Type", "application/json")
 			http.Error(w, "", http.StatusForbidden)
+			return
 		}
-		/*
-			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(MutantResponse{
-				Id:  mutant.Id,
-				Dna: mutant.Dna,
-			})*/
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(MutantResponse{
+			IsMutant: result,
+		})
 	}
 }

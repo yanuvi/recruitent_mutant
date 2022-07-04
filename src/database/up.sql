@@ -3,5 +3,5 @@ DROP TABLE IF EXISTS mutant;
 CREATE TABLE mutant (
     id VARCHAR(32) PRIMARY KEY,
     dna VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+    reclutamiento VARCHAR(1) NOT NULL
 );
