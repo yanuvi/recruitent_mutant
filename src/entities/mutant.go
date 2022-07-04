@@ -1,10 +1,5 @@
 package entities
 
-/*
-type Mutant struct {
-	adnSeuquence []string
-}*/
-
 type MutantRequest struct {
 	Dna []string `json:"dna"`
 }
