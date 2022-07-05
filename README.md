@@ -24,16 +24,12 @@ Donde se pueda detectar si un humano es mutante enviando la secuencia de ADN med
 
 <div class="highlight highlight-source-json notranslate position-relative overflow-auto"><pre>{
   <span class="pl-ent">"dna"</span>: [
-    <span class="pl-s"><span class="pl-pds">"</span>ATGCTGCTAC<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>TGTTCTGTTT<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>GAAGCCCTAT<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>CGGGTTGCCG<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>ATGCTGGAAC<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>GGTTAAGGCG<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>TTGGAACTCG<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>CCGCGGCCTC<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>GGTGTCTGCG<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>GTTTTCTTGC<span class="pl-pds">"</span></span>
+    <span class="pl-s"><span class="pl-pds">"</span>ATGCGA<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>CAGTGC<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>TTATGT<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>AGAAGG<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>CCCCTA<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>TCACTG<span class="pl-pds">"</span></span>
   ]
 }</pre>
       <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2" wfd-invisible="true">
