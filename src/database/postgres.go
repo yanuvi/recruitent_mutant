@@ -3,7 +3,6 @@ package database
 import (
 	"context"
 	"database/sql"
-	"fmt"
 
 	_ "github.com/lib/pq"
 	"github.com/yanuvi/recruitent_mutant/src/models"
@@ -22,7 +21,6 @@ func NewPostgresRepository(url string) (*PostgresRepository, error) {
 }
 
 func (repo *PostgresRepository) InsertMutant(ctx context.Context, mutant *models.Mutant) error {
-	fmt.Printf("entre aca insert %v\n", mutant.Reclutamiento)
 	_, err := repo.db.ExecContext(ctx, "INSERT INTO mutant (id, dna, reclutamiento) VALUES ($1, $2, $3)", mutant.Id, mutant.Dna, mutant.Reclutamiento)
 	return err
 }

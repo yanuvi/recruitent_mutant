@@ -6,11 +6,18 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/aws/aws-lambda-go/lambda"
+
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"github.com/yanuvi/recruitent_mutant/src/handlers"
 	"github.com/yanuvi/recruitent_mutant/src/server"
 )
+
+type CreateMutantRequest struct {
+	Dna []string `json:"dna"`
+}
 
 func main() {
 
@@ -32,6 +39,7 @@ func main() {
 		log.Fatalf("Error creating server %v\n", err)
 	}
 	s.Start(BindRouters)
+	lambda.Start(BindRouters)
 }
 
 func BindRouters(s server.Server, r *mux.Router) {

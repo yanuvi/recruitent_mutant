@@ -30,6 +30,7 @@ func MutantHandler(s server.Server) http.HandlerFunc {
 		}
 
 		id, err := ksuid.NewRandom()
+
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
