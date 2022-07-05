@@ -26,9 +26,9 @@ Ubicarse en la carpeta **database** del repositorio y ejecutar los siguientes co
 #### Variables de conexion a la BD Postgre
 Se debe armar el archivo con los siguientes datos, agregando los datos de conexion a la BD 
 
-PORT=:5050
-JWT_SECRET=secret
-DATABASE_URL=
+`PORT=:5050`
+`JWT_SECRET=secret`
+`DATABASE_URL=`
 
 
 #### Revision del API REST
