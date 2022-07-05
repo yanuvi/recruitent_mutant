@@ -17,6 +17,7 @@ Abrira una pagina html con la cobertura del test automatico
 #### Docker
 Ubicarse en la carpeta **database** del repositorio y ejecutar los siguientes comandos:
 **docker build . -t recruitent_mutant-ws-rest-db** 
+
 **docker run -p 54321:5432 recruitent_mutant-ws-rest-db**
 
 #### Revision del API REST
