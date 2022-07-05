@@ -7,14 +7,16 @@ Este repositorio contiene la evaluacion de ADN para determinar si un humano muta
 - Creacion de API REST 
 - Registro en base de datos de los ADNs verificados con la API 
 
-#### Prerequisito
+
 ----
+#### Prerequisito
+
 - Descargar el repositorio del desarrollo a un directorio local
 
 
-
-#### Testing
 ----
+#### Testing
+
 Para la ejecucion de las pruebas del desarrollo realizar los siguientes pasos:
 - Ejecutar desde la terminal el siguiente comando:
 **go test ./... -coverprofile=coverage.out**
@@ -27,8 +29,9 @@ Mostrara el resultado de los test automaticos y code coverage
 Abrira una pagina html con la cobertura del test automatico
 
 
-#### Docker
 ----
+#### Docker
+
 Ubicarse en la carpeta **database** del repositorio y ejecutar los siguientes comandos:
 
 **docker build . -t recruitent_mutant-ws-rest-db** 
@@ -36,8 +39,9 @@ Ubicarse en la carpeta **database** del repositorio y ejecutar los siguientes co
 **docker run -p 54321:5432 recruitent_mutant-ws-rest-db**
 
 
-#### Variables de conexion a la BD Postgre
 ----
+#### Variables de conexion a la BD Postgre
+
 Se debe armar el archivo con los siguientes datos, agregando los datos de conexion a la BD 
 
 `PORT=:5050`
@@ -47,9 +51,9 @@ Se debe armar el archivo con los siguientes datos, agregando los datos de conexi
 `DATABASE_URL=`
 
 
-
-#### Revision del API REST
 ----
+#### Revision del API REST
+
 Donde se pueda detectar si un humano es mutante enviando la secuencia de ADN mediante un HTTP POST con un Json el cual tenga el siguiente formato:
 
 <div class="highlight highlight-source-json notranslate position-relative overflow-auto"><pre>{
