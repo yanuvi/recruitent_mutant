@@ -21,7 +21,6 @@ func NewMutantImpl() (mutantImpl *MutantImpl) {
 
 func adnPrerequisite(adnSequence []string) (result bool) {
 	result = true
-	//fmt.Println("entre aca adnpre   ")
 	for _, v := range adnSequence {
 
 		valueInByte := []byte(strings.ToUpper(v))

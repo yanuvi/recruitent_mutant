@@ -16,11 +16,9 @@ func (p *PostgresConnector) GetConnection() (db *PostgresRepository, err error) 
 	if err != nil {
 		fmt.Print(err)
 	}
-	username := os.Getenv("db_user")
-	password := os.Getenv("db_pass")
-	dbName := os.Getenv("db_name")
-	dbHost := os.Getenv("db_host")
-	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password)
+	dbName := os.Getenv("DATABASE_URL")
+
+	dbURI := fmt.Sprintf("DATABASE_URL=%s", dbName)
 	_, err = sql.Open("postgres", dbURI)
 	if err != nil {
 		return nil, err

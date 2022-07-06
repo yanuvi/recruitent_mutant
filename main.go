@@ -2,11 +2,10 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/aws/aws-lambda-go/lambda"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -23,7 +22,7 @@ func main() {
 
 	err := godotenv.Load(".env")
 	if err != nil {
-		log.Fatalf("Error loading .env file %v\n", err)
+		fmt.Print("No encontro el archivo .env, utilizara las variables de entorno\n")
 	}
 
 	PORT := os.Getenv("PORT")
@@ -39,7 +38,6 @@ func main() {
 		log.Fatalf("Error creating server %v\n", err)
 	}
 	s.Start(BindRouters)
-	lambda.Start(BindRouters)
 }
 
 func BindRouters(s server.Server, r *mux.Router) {
